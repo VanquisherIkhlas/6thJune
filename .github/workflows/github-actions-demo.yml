@@ -34,3 +34,14 @@ jobs:
         run: |
           npm install sfdx-cli --global
           sfdx force --help
+      - name: Decrypt the server.key.enc file & store inside assets folder
+        run: |
+          openssl enc -nosalt -aes-256-cbc -d -in assets/server.key.enc -out assets/server.key -base64 -K DE3B4F6346E0CFA95CA695168A0FD8DA4D06AE808A0AFA9A4DBD2502D5DD6FE7 -iv AC767FEDCF2105140E84B62495C3F43A
+          
+      - name: Authenticate Salesforce ORG
+        run: |
+          sfdx force:auth:jwt:grant --clientid 3MVG9n_HvETGhr3BO3AwKRfyu9VGEUI30Lmqi3LsNQeDCtNb0tOAmn_6TjIjuCICZd.MtwI1rLTL_RI54hCW0 --jwtkeyfile assets/server.key --username ikhlas.a.shaikh@wise-wolf-iglrtz.com  --setdefaultdevhubusername -a HubOrg
+      
+      - name: Validate Source Code Against Salesforce ORG
+        run: |
+          sfdx force:source:deploy -p force-app -c -u HubOrg
