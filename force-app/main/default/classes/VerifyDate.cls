@@ -30,8 +30,7 @@ public class VerifyDate {
 		Integer totalDays = Date.daysInMonth(date1.year(), date1.month());
 		Date lastDay = Date.newInstance(date1.year(), date1.month(), totalDays);
 		return lastDay;
-		System.debug('this worked');
-		System.debug('this worked in deployment');
+		
 	}
 
 }
