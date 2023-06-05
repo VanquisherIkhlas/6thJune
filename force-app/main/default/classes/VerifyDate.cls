@@ -1,8 +1,7 @@
 public class VerifyDate {
 	
 //testing path filtering capabilities and added path in the yml
-	//added comment for pushing into github
-	//method to handle potential checks against two dates
+	
 	public static Date CheckDates(Date date1, Date date2) {
 		//if date2 is within the next 30 days of date1, use date2.  Otherwise use the end of the month
 		if(DateWithin30Days(date1,date2)) {
