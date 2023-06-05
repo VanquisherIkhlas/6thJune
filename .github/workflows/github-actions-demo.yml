@@ -21,7 +21,7 @@ jobs:
       - run: "echo \"\U0001F34F This job's status is ${{ job.status }}.\""
   build:
     runs-on: ubuntu-latest
-    environment: developer
+    environment: JuneDemo
     steps:
       - uses: actions/checkout@v3
         with:
