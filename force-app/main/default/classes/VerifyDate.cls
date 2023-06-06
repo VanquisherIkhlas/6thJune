@@ -11,8 +11,7 @@ public class VerifyDate {
 //adding more loines to test
 //committ 
 //making some change
-//to test the functionaoti of thr code
-//after adding ruleset to the folders.
+
 	
 	public static Date CheckDates(Date date1, Date date2) {
 		//if date2 is within the next 30 days of date1, use date2.  Otherwise use the end of the month
