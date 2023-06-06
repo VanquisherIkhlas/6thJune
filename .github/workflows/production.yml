@@ -27,10 +27,10 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
       
-build:
-  runs-on: ubuntu-latest
-  needs: [Explore-GitHub-Actions]
-  environment: developer
+  build:
+    runs-on: ubuntu-latest
+    needs: [Explore-GitHub-Actions]
+    environment: production
     steps:
       # Checkout the Source code from the latest commit
       - uses: actions/checkout@v3
