@@ -59,16 +59,20 @@ jobs:
       
       - name: Generate the package.xml for delta files
         run: |
-          mkdir delta
-          sfdx sgd:source:delta --to "HEAD" --from "HEAD~1" --output "./delta" --ignore-whitespace -d -i .sgdignore
+          mkdir changed-sources
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/ 
           echo "--- package.xml generated with added and modified metadata ---"
-          cat delta/package/package.xml
+          
       
       - name: Install the SFDX CLI Scanner
         run: |
           echo 'y' | sfdx plugins:install @salesforce/sfdx-scanner
       
-     
+      - name: Run SFDX CLI Scanner
+        run: |
+          cd changed-sources
+          sfdx scanner:run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance" --outfile 'apexScanResults.sarif'  
+          cd ..
       
       # Run Apex PMD Scan
       - name: 'Run PMD scan'
@@ -85,19 +89,13 @@ jobs:
         run: |
           # exit 1
           echo "test"
-          
-     - name: Run SFDX CLI Scanner
-        run: |
-          mkdir changed-sources
-          cd changed-sources
-          sfdx scanner:run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance" --outfile 'apexScanResults.sarif'  
-          cd ..      
-    # Now we upload the .sarif file as explained in the previous step
-      -  name: Upload SARIF file
-         uses: github/codeql-action/upload-sarif@v1
-         with:
-                sarif_file: changed-sources/apexScanResults.sarif
-         
+      
+      - name: Upload SARIF file
+        # if: steps.pmd.outputs.violations != 0
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: changed-sources/apexScanResults.sarif
+                 
       - uses: actions/upload-artifact@v3
         with:
           name: cli-scan-report
