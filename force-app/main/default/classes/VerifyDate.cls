@@ -8,6 +8,7 @@ public class VerifyDate {
 //aading code to test merge request
 //more data
 //making code cvhanges
+//adding more loines to test
 	
 	public static Date CheckDates(Date date1, Date date2) {
 		//if date2 is within the next 30 days of date1, use date2.  Otherwise use the end of the month
